@@ -1,6 +1,7 @@
 package com.example.login_study.demo.service;
 
 import com.example.login_study.demo.dto.LoginDto;
+import com.example.login_study.demo.dto.MemberResponseDto;
 import com.example.login_study.demo.mapper.MemberMapper;
 import com.example.login_study.demo.dto.AuthDto;
 import com.example.login_study.demo.entity.Member;
@@ -50,5 +51,32 @@ public class MemberService {
         }
 
         return member.getMemberId();
+    }
+
+    public MemberResponseDto info(Long memberId){
+        Member member = memberMapper.findByid(memberId);
+        if(member == null){
+            throw new IllegalArgumentException("존재하지 않는 회원");
+        }
+
+        return new MemberResponseDto(member);
+    }
+
+    public void delete(Long memberId){
+        Member member = memberMapper.findByid(memberId);
+        if(member == null){
+            throw new IllegalArgumentException("존재하지 않는 회원");
+        }
+        memberMapper.deleteByMemberId(memberId);
+    }
+
+    public void update(Long memberId, String newNick, String newPassword){
+        Member member = memberMapper.findByid(memberId);
+        if(member == null){
+            throw new IllegalArgumentException("존재하지 않는 회원");
+        }
+
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        memberMapper.update(memberId, newNick, encodedPassword);
     }
 }

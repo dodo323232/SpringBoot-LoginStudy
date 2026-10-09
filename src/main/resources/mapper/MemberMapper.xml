@@ -25,10 +25,19 @@
     </select>
 
     <!-- 4. findById() 매핑 (인터페이스 파라미터명이 memberId인지 id인지 확인) -->
-    <select id="findById" resultType="com.example.login_study.demo.entity.Member">
-        SELECT member_id, email, password, nickname, created_at
-        FROM member
-        WHERE member_id = #{id}
+    <select id="findByid" resultType="com.example.login_study.demo.entity.Member">
+        SELECT * FROM member WHERE member_id = #{memberId}
     </select>
+
+    <delete id="deleteByMemberId">
+        DELETE FROM member WHERE member_id = #{memberId}
+    </delete>
+
+    <update id="update">
+        UPDATE member
+        SET nickname = #{nickname},
+        password = #{password}
+        WHERE member_id = #{memberId}
+    </update>
 
 </mapper>
