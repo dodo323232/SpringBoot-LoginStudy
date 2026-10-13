@@ -10,4 +10,10 @@ public class AuthDto {
     private String email;
     private String password;
     private String nickname;
+
+    public AuthDto(String mail, String number, String nickname) {
+        this.email = mail;
+        this.password = number;
+        this.nickname = nickname;
+    }
 }
