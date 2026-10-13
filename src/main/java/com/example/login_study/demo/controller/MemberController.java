@@ -4,6 +4,7 @@ import com.example.login_study.demo.dto.AuthDto;
 import com.example.login_study.demo.dto.LoginDto;
 import com.example.login_study.demo.dto.MemberResponseDto;
 import com.example.login_study.demo.dto.UpdateRequestDto;
+import com.example.login_study.demo.jwt.JwtUtil;
 import com.example.login_study.demo.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
 
+    private final JwtUtil jwtUtil;
     private final MemberService memberService;
 
     @PostMapping("/signup")
@@ -36,6 +38,16 @@ public class MemberController {
         session.setAttribute("memberId",memberId);
 
         return ResponseEntity.ok("로그인 성공");
+    }
+
+    @PostMapping("/jwt-login")
+    public ResponseEntity<String> jwtLogin(@RequestBody LoginDto loginDto){
+
+        Long memberId = memberService.login(loginDto);
+
+        String token = jwtUtil.createToken(memberId);
+
+        return ResponseEntity.ok(token);
     }
 
     @GetMapping("/check")

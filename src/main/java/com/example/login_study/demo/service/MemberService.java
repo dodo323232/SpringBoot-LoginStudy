@@ -50,6 +50,8 @@ public class MemberService {
             throw new IllegalArgumentException("아이디 또는 비밀번호가 틀렸습니다");
         }
 
+
+
         return member.getMemberId();
     }
 
